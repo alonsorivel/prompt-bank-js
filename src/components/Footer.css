@@ -1,0 +1,12 @@
+/* Ensure the main content takes up available space */
+.Footer main {
+  flex: 1;
+}
+
+/* Sticky footer styles */
+.Footer .footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: #f5f5f5; /* Adjust color if needed */
+}
