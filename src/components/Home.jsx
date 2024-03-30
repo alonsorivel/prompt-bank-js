@@ -1,11 +1,14 @@
 import { Container } from "react-bootstrap";
+import AddPrompt from "./AddPrompt";
+import ManagePrompts from "./ManagePrompts";
 import "./Home.css";
 
 const Home = () => {
   return (
     <div className="Home">
       <Container>
-        <h1 className="header">Welcome to the Home Page!</h1>
+        <AddPrompt />
+        <ManagePrompts />
       </Container>
     </div>
   );
