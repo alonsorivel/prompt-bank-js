@@ -3,17 +3,115 @@ import { Alert, Button, Card, Container, Form } from "react-bootstrap";
 import { useThunk, addPrompt } from "../store";
 import "./AddPrompt.css";
 
-const AddPrompt = () => {
-  const [title, setTitle] = useState("New prompt");
+const initialFieldsState = {
+  title: { value: "New prompt", isInvalid: false, error: "" },
+  prompt: { value: "Do this, do that!", isInvalid: false, error: "" }
+};
 
+const validationHandlers = {
+  title: [
+    (str) =>
+      str.length >= 3
+        ? { passed: true }
+        : { passed: false, msg: "Provide at least 3 characters for title" },
+    (str) =>
+      str.length <= 16
+        ? { passed: true }
+        : { passed: false, msg: "Provide at most 16 characters for title" }
+  ],
+  prompt: [
+    (str) =>
+      str.length >= 3
+        ? { passed: true }
+        : { passed: false, msg: "Provide at least 3 characters for prompt" },
+    (str) =>
+      str.length <= 32
+        ? { passed: true }
+        : { passed: false, msg: "Provide at most 32 characters for prompt" }
+  ]
+};
+
+const AddPrompt = () => {
+  const [fieldsState, setFieldsState] = useState(initialFieldsState);
   const [doAddPrompt, isAddingPrompt, addingPromptError] = useThunk(addPrompt);
 
+  const checkHandlers = (field, test) => {
+    return validationHandlers[field]
+      .map((fn) => fn(test))
+      .reduce(
+        (accumulator, currentValue) => {
+          if (!currentValue.passed) return currentValue;
+
+          return accumulator;
+        },
+        {
+          passed: true
+        }
+      );
+  };
+
+  const isFormValid = () => {
+    let isValid = true;
+
+    for (const field in validationHandlers) {
+      const { passed } = checkHandlers(field, fieldsState[field].value);
+
+      if (!passed) {
+        isValid = false;
+        break;
+      }
+    }
+
+    return isValid;
+  };
+
+  const handleTitle = (event) => {
+    const el = event.target;
+
+    const isValid = checkHandlers("title", el.value);
+
+    setFieldsState({
+      ...fieldsState,
+      title: {
+        value: el.value,
+        isInvalid: !isValid.passed,
+        error: isValid.msg ?? ""
+      }
+    });
+  };
+
+  const handlePrompt = (event) => {
+    const el = event.target;
+
+    const isValid = checkHandlers("prompt", el.value);
+
+    setFieldsState({
+      ...fieldsState,
+      prompt: {
+        value: el.value,
+        isInvalid: !isValid.passed,
+        error: isValid.msg ?? ""
+      }
+    });
+  };
+
   const handleSubmit = async (event) => {
-    event.preventDefault(); // Prevent default form submission behavior
+    event.preventDefault();
 
-    doAddPrompt({ title });
+    if (isFormValid()) {
+      console.log(fieldsState);
 
-    setTitle("");
+      doAddPrompt({
+        title: fieldsState.title.value,
+        prompt: fieldsState.prompt.value
+      });
+
+      resetForm();
+    }
+  };
+
+  const resetForm = () => {
+    setFieldsState(initialFieldsState);
   };
 
   return (
@@ -22,18 +120,42 @@ const AddPrompt = () => {
         <Card>
           <Card.Header as="h5">Create new prompt</Card.Header>
           <Card.Body>
-            <Form onSubmit={handleSubmit}>
+            <Form noValidate onSubmit={handleSubmit}>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="title">Prompt title</Form.Label>
                 <Form.Control
                   type="text"
+                  placeholder="Enter title"
                   id="title"
-                  value={title}
-                  onChange={(e) => setTitle(e.target.value)}
+                  value={fieldsState.title.value}
+                  onChange={handleTitle}
+                  isInvalid={fieldsState.title.isInvalid}
                 />
+                <Form.Control.Feedback type="invalid">
+                  {fieldsState.title.error}
+                </Form.Control.Feedback>
               </Form.Group>
 
-              <Button variant="primary" type="submit" disabled={isAddingPrompt}>
+              <Form.Group className="mb-3">
+                <Form.Label>Prompt</Form.Label>
+                <Form.Control
+                  as="textarea"
+                  rows={3}
+                  placeholder="Enter your prompt"
+                  value={fieldsState.prompt.value}
+                  onChange={handlePrompt}
+                  isInvalid={fieldsState.prompt.isInvalid}
+                />
+                <Form.Control.Feedback type="invalid">
+                  {fieldsState.prompt.error}
+                </Form.Control.Feedback>
+              </Form.Group>
+
+              <Button
+                variant="primary"
+                type="submit"
+                disabled={isAddingPrompt || !isFormValid()}
+              >
                 Submit
               </Button>
             </Form>

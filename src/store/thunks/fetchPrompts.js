@@ -6,7 +6,7 @@ const fetchPrompts = createAsyncThunk("prompts/fetch", async () => {
 
   //   await pause(1000);
 
-  return response.data;
+  return response.data.sort((a, b) => b.createdAt - a.createdAt);
 });
 
 // // DEV ONLY!!!

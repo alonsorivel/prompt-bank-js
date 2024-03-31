@@ -1,10 +1,12 @@
 import { createAsyncThunk, nanoid } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const addPrompt = createAsyncThunk("prompts/add", async (prompt) => {
+const addPrompt = createAsyncThunk("prompts/add", async (item) => {
   const response = await axios.post("http://localhost:3005/prompts", {
-    id: nanoid(),
-    title: prompt.title
+    id: nanoid(13),
+    title: item.title,
+    prompt: item.prompt,
+    createdAt: Date.now()
   });
 
   //   await pause(1000);

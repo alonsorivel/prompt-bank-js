@@ -29,7 +29,8 @@ const counterSlice = createSlice({
     });
     builder.addCase(addPrompt.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.data.push(action.payload);
+      // state.data.push(action.payload);
+      state.data = [action.payload, ...state.data];
     });
     builder.addCase(addPrompt.rejected, (state, action) => {
       state.isLoading = false;
