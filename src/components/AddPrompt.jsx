@@ -26,9 +26,9 @@ const validationHandlers = {
         ? { passed: true }
         : { passed: false, msg: "Provide at least 3 characters for prompt" },
     (str) =>
-      str.length <= 32
+      str.length <= 256
         ? { passed: true }
-        : { passed: false, msg: "Provide at most 32 characters for prompt" }
+        : { passed: false, msg: "Provide at most 256 characters for prompt" }
   ]
 };
 
@@ -155,7 +155,7 @@ const AddPrompt = () => {
                 type="submit"
                 disabled={isLoading || !isFormValid()}
               >
-                Submit
+                Add
               </Button>
             </Form>
           </Card.Body>

@@ -1,34 +1,22 @@
 {
   "prompts": [
     {
-      "id": "y_XLE3Jz0y8Xk",
+      "id": "OfAbnkchFbpWu",
       "title": "First prompt",
       "prompt": "Do this, do that!",
-      "createdAt": 1711988385624
+      "createdAt": 1711989548009
     },
     {
-      "id": "mxXl8wsOg4RED",
+      "id": "_7VHNr-44OGaV",
       "title": "Second prompt",
       "prompt": "Do this, do that!",
-      "createdAt": 1711988391187
+      "createdAt": 1711989570329
     },
     {
-      "id": "BQwVv--SQEIRr",
+      "id": "YJjQD89seoFBy",
       "title": "Third prompt",
-      "prompt": "Do this, do that!",
-      "createdAt": 1711988396598
-    },
-    {
-      "id": "Eb5pjv0X06bp-",
-      "title": "Fourth prompt",
-      "prompt": "Do this, do that!",
-      "createdAt": 1711988401728
-    },
-    {
-      "id": "Rm2KqsxRBYJGr",
-      "title": "Fifth prompt",
-      "prompt": "Do this, do that!",
-      "createdAt": 1711988412686
+      "prompt": "Oscar the ostrich longed to fly. He flapped and ran until one day, a big gust of wind whooshed him up! Worms stared. Birds squawked. Oscar soared (briefly). He landed in a giggling pile of feathers. Not a plane, but definitely a flying ostrich!",
+      "createdAt": 1711994823099
     }
   ]
 }
