@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { Alert, Button, Card, Container, Form } from "react-bootstrap";
+import { Button, Card, Container, Form } from "react-bootstrap";
 import { useThunk, addPrompt } from "../store";
+import ErrorModal from "./ErrorModal";
 import "./AddPrompt.css";
 
 const initialFieldsState = {
@@ -33,7 +34,7 @@ const validationHandlers = {
 
 const AddPrompt = () => {
   const [fieldsState, setFieldsState] = useState(initialFieldsState);
-  const [doAddPrompt, isAddingPrompt, addingPromptError] = useThunk(addPrompt);
+  const [doAddPrompt, isLoading, error] = useThunk(addPrompt);
 
   const checkHandlers = (field, test) => {
     return validationHandlers[field]
@@ -99,8 +100,6 @@ const AddPrompt = () => {
     event.preventDefault();
 
     if (isFormValid()) {
-      console.log(fieldsState);
-
       doAddPrompt({
         title: fieldsState.title.value,
         prompt: fieldsState.prompt.value
@@ -154,7 +153,7 @@ const AddPrompt = () => {
               <Button
                 variant="primary"
                 type="submit"
-                disabled={isAddingPrompt || !isFormValid()}
+                disabled={isLoading || !isFormValid()}
               >
                 Submit
               </Button>
@@ -162,12 +161,8 @@ const AddPrompt = () => {
           </Card.Body>
         </Card>
       </Container>
-      {addingPromptError && (
-        <Container>
-          <Alert variant="danger">
-            {addingPromptError.message} while adding prompt...
-          </Alert>
-        </Container>
+      {error && (
+        <ErrorModal title="Error Adding Prompt" message={error.message} />
       )}
     </div>
   );

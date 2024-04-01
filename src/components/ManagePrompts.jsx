@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { Alert, Card, Container, ListGroup, Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useThunk, fetchPrompts } from "../store";
-import FormatDateFromUnix from "./FormatDateFromUnix";
+import PromptItem from "./PromptItem";
 import "./ManagePrompts.css";
 
 const ManagePrompts = () => {
@@ -38,8 +38,7 @@ const ManagePrompts = () => {
               <ListGroup>
                 {data.map((prompt, i) => (
                   <ListGroup.Item variant="light" key={i}>
-                    {prompt.title}
-                    <FormatDateFromUnix unixms={prompt.createdAt} />
+                    <PromptItem prompt={prompt} />
                   </ListGroup.Item>
                 ))}
               </ListGroup>

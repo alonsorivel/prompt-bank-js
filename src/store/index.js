@@ -11,3 +11,4 @@ export const store = configureStore({
 export * from "./hooks/useThunk";
 export * from "./thunks/addPrompt";
 export * from "./thunks/fetchPrompts";
+export * from "./thunks/removePrompt";
