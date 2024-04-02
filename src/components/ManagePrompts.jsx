@@ -6,11 +6,8 @@ import PromptItem from "./PromptItem";
 import "./ManagePrompts.css";
 
 const ManagePrompts = () => {
-  const [doFetchPrompts, isLoadingPrompts, loadingPromptsError] =
-    useThunk(fetchPrompts);
-  const { data } = useSelector((state) => {
-    return state.prompts;
-  });
+  const [doFetchPrompts, isLoading, error] = useThunk(fetchPrompts);
+  const { data } = useSelector((state) => state.prompts);
 
   useEffect(() => {
     doFetchPrompts();
@@ -18,15 +15,15 @@ const ManagePrompts = () => {
 
   return (
     <div className="ManagePrompts">
-      {isLoadingPrompts && (
+      {isLoading && (
         <Container>
-          <Spinner animation="grow" />
+          <Spinner animation="grow" size="sm" /> Loading prompts...
         </Container>
       )}
-      {loadingPromptsError && (
+      {error && (
         <Container>
           <Alert variant="danger">
-            {loadingPromptsError.message} while fetching prompts...
+            {error.message} while fetching prompts...
           </Alert>
         </Container>
       )}
@@ -34,7 +31,7 @@ const ManagePrompts = () => {
         <Container>
           <Card>
             <Card.Header as="h5">Prompts list</Card.Header>
-            <Card.Body className="max-height-500 overflow-auto">
+            <Card.Body className="mn-100 overflow-auto">
               {data.map((prompt, i) => (
                 <PromptItem
                   key={i}

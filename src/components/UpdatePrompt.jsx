@@ -116,7 +116,7 @@ const UpdatePrompt = ({ prompt, handleCancel }) => {
           title: fieldsState.title.value,
           prompt: fieldsState.prompt.value
         },
-        () => handleCancel(false)
+        { onSuccess: () => handleCancel(false) }
       );
     }
   };
@@ -183,7 +183,7 @@ const UpdatePrompt = ({ prompt, handleCancel }) => {
         </Card.Footer>
       </Card>
       {error && (
-        <ErrorModal title="Error Adding Prompt" message={error.message} />
+        <ErrorModal title="Error Updating Prompt" message={error.message} />
       )}
     </div>
   );

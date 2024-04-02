@@ -22,7 +22,7 @@ const PromptItem = ({ prompt, last }) => {
   const [doRemovePrompt, isLoading, error] = useThunk(removePrompt);
 
   const handleRemove = () => {
-    doRemovePrompt(prompt, () => setExpand(false));
+    doRemovePrompt(prompt, { onSuccess: () => setExpand(false) });
   };
 
   const ExpandButton = () => {

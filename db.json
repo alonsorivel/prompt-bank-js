@@ -1,3 +1,52 @@
 {
-  "prompts": []
+  "prompts": [
+    {
+      "id": "Lr8YLBpBOv8yb",
+      "title": "First prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712075845815
+    },
+    {
+      "id": "y3WViZtZiFqFO",
+      "title": "Second prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712079151025
+    },
+    {
+      "id": "HtnrJ7fAfa2Fm",
+      "title": "Third prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712079737834
+    },
+    {
+      "id": "ea1CK-m_36vzk",
+      "title": "Fourth prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712080434272
+    },
+    {
+      "id": "8j_bdBo_Oa8yp",
+      "title": "Fifth prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712080440547
+    },
+    {
+      "id": "xtjbxieew_2II",
+      "title": "Sixth prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712080468175
+    },
+    {
+      "id": "QM6bk0JjktmuE",
+      "title": "Seventh prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712080483489
+    },
+    {
+      "id": "Der5dpU_V-sdw",
+      "title": "Eighth prompt",
+      "prompt": "Do this, do that!",
+      "createdAt": 1712080501562
+    }
+  ]
 }

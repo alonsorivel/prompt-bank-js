@@ -7,15 +7,32 @@ export const useThunk = (thunk) => {
   const dispatch = useDispatch();
 
   const runThunk = useCallback(
-    (arg, onSuccess = () => {}) => {
+    (arg, events = {}) => {
+      // Events model
+      const eventsModel = {
+        onSuccess: () => {},
+        onError: () => {},
+        onFinally: () => {}
+      };
+
+      // Update events
+      const doEvent = { ...eventsModel, ...events };
+
       setIsLoading(true);
+      setError(null);
       dispatch(thunk(arg))
         .unwrap()
-        .catch((err) => setError(err))
+        .then(() => {
+          setError(false);
+          doEvent.onSuccess();
+        })
+        .catch((err) => {
+          setError(err);
+          doEvent.onError();
+        })
         .finally(() => {
           setIsLoading(false);
-          setError(false);
-          onSuccess();
+          doEvent.onFinally();
         });
     },
     [dispatch, thunk]

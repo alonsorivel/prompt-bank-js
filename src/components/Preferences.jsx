@@ -4,8 +4,8 @@ import "./Preferences.css";
 const Preferences = () => {
   return (
     <div className="Preferences">
-      <Container>
-        <h1 className="header">Welcome to the Preferences Page!</h1>
+      <Container className="d-flex align-items-center justify-content-center vh-100">
+        <h1 className="text-center">Welcome to the Preferences Page!</h1>
       </Container>
     </div>
   );
