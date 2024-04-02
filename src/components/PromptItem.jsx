@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Badge, Card, Button } from "react-bootstrap";
-import { useThunk, removePrompt } from "../store";
+import { useDispatch } from "react-redux";
+import { useThunk, removePrompt, setExpandedPrompt } from "../store";
 import UpdatePrompt from "./UpdatePrompt";
 import ErrorModal from "./modals/ErrorModal";
 import { format } from "date-fns/format";
@@ -17,12 +18,19 @@ const unixToDateTime = (ms) => {
 };
 
 const PromptItem = ({ prompt, last }) => {
+  const dispatch = useDispatch();
+
   const [isUpdating, setIsUpdating] = useState(false);
-  const [expand, setExpand] = useState(false);
   const [doRemovePrompt, isLoading, error] = useThunk(removePrompt);
 
+  const isExpanded = prompt.expanded ? prompt.expanded : false;
+
   const handleRemove = () => {
-    doRemovePrompt(prompt, { onSuccess: () => setExpand(false) });
+    doRemovePrompt(prompt);
+  };
+
+  const handleExpand = () => {
+    dispatch(setExpandedPrompt({ id: prompt.id, expanded: !isExpanded }));
   };
 
   const ExpandButton = () => {
@@ -31,9 +39,9 @@ const PromptItem = ({ prompt, last }) => {
         className="float-end"
         variant="light"
         size="sm"
-        onClick={() => setExpand(!expand)}
+        onClick={handleExpand}
       >
-        <FontAwesomeIcon icon={expand ? faChevronUp : faChevronDown} />
+        <FontAwesomeIcon icon={isExpanded ? faChevronUp : faChevronDown} />
       </Button>
     );
   };
@@ -43,9 +51,9 @@ const PromptItem = ({ prompt, last }) => {
       {!isUpdating && (
         <Card className={!last && "mb-2"}>
           <Card.Header as="h5">
-            {prompt.title} <ExpandButton />
+            {prompt.title} {prompt.expanded && " (expanded)"} <ExpandButton />
           </Card.Header>
-          {expand && (
+          {isExpanded && (
             <>
               <Card.Body>
                 <div className="text-wrap">{prompt.prompt}</div>

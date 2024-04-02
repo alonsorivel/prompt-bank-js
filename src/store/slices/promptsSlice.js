@@ -10,9 +10,26 @@ const initialState = {
   error: null
 };
 
-const counterSlice = createSlice({
+const promptSlice = createSlice({
   name: "prompts",
   initialState,
+  reducers: {
+    setExpandedPrompt(state, action) {
+      // Copy state data
+      const dataCopy = [...state.data];
+
+      // Find the prompt
+      const index = dataCopy.findIndex((item) => item.id === action.payload.id);
+
+      if (index !== -1) {
+        dataCopy[index] = {
+          ...dataCopy[index],
+          expanded: action.payload.expanded
+        };
+        state.data = dataCopy;
+      }
+    }
+  },
   extraReducers(builder) {
     // Fetch reducers
     builder.addCase(fetchPrompts.pending, (state) => {
@@ -88,4 +105,7 @@ const counterSlice = createSlice({
   }
 });
 
-export default counterSlice.reducer;
+export default promptSlice.reducer;
+
+// Export reducers
+export const { setExpandedPrompt } = promptSlice.actions;

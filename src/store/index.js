@@ -7,6 +7,9 @@ export const store = configureStore({
   }
 });
 
+// Export reducers directly from the store
+export { setExpandedPrompt } from "./slices/promptsSlice";
+
 // Export thunks directly from the store
 export * from "./hooks/useThunk";
 export * from "./thunks/addPrompt";
