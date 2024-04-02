@@ -9,7 +9,7 @@ const addPrompt = createAsyncThunk("prompts/add", async (item) => {
     createdAt: Date.now()
   });
 
-  //   await pause(1000);
+  // await pause(1000);
 
   return response.data;
 });

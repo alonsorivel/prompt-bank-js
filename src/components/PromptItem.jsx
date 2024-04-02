@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Card, Button, Container } from "react-bootstrap";
+import { Badge, Card, Button } from "react-bootstrap";
 import { useThunk, removePrompt } from "../store";
-import ErrorModal from "./ErrorModal";
+import UpdatePrompt from "./UpdatePrompt";
+import ErrorModal from "./modals/ErrorModal";
 import { format } from "date-fns/format";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -11,33 +12,27 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import "./PromptItem.css";
 
-const FormatDateFromUnix = ({ unixms, label, time = true }) => {
-  const date = new Date(unixms);
-
-  const formatStr = time ? "MMM do, yyyy HH:mm:ss" : "MMM do, yyyy";
-
-  const formattedDate = format(date, formatStr);
-
-  return (
-    <div className="fst-italic">
-      <small>
-        {label} {formattedDate}
-      </small>
-    </div>
-  );
+const unixToDateTime = (ms) => {
+  return format(new Date(ms), "MMM do, yyyy HH:mm:ss");
 };
 
-const PromptItem = ({ prompt }) => {
+const PromptItem = ({ prompt, last }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
   const [expand, setExpand] = useState(false);
   const [doRemovePrompt, isLoading, error] = useThunk(removePrompt);
 
   const handleRemove = () => {
-    doRemovePrompt(prompt);
+    doRemovePrompt(prompt, () => setExpand(false));
   };
 
   const ExpandButton = () => {
     return (
-      <Button variant="light" size="sm" onClick={() => setExpand(!expand)}>
+      <Button
+        className="float-end"
+        variant="light"
+        size="sm"
+        onClick={() => setExpand(!expand)}
+      >
         <FontAwesomeIcon icon={expand ? faChevronUp : faChevronDown} />
       </Button>
     );
@@ -45,35 +40,52 @@ const PromptItem = ({ prompt }) => {
 
   return (
     <div className="PromptItem">
-      <Container
-        fluid
-        className="d-flex justify-content-between align-items-center mb-2"
-      >
-        <div>
-          <div>
-            <h5>
-              {prompt.title} <ExpandButton />
-            </h5>
-          </div>
+      {!isUpdating && (
+        <Card className={!last && "mb-2"}>
+          <Card.Header as="h5">
+            {prompt.title} <ExpandButton />
+          </Card.Header>
           {expand && (
-            <Card>
-              <Card.Body className="bg-white paragraph">
-                {prompt.prompt}
+            <>
+              <Card.Body>
+                <div className="text-wrap">{prompt.prompt}</div>
+                {!prompt.updatedAt && (
+                  <Badge className="mt-3" pill bg="secondary" text="light">
+                    Created on {unixToDateTime(prompt.createdAt)}
+                  </Badge>
+                )}
+                {prompt.updatedAt && (
+                  <Badge className="mt-3" pill bg="secondary" text="light">
+                    Updated on {unixToDateTime(prompt.updatedAt)}
+                  </Badge>
+                )}
               </Card.Body>
-            </Card>
+              <Card.Footer>
+                <Button
+                  variant="primary"
+                  size="sm"
+                  disabled={isLoading}
+                  onClick={() => setIsUpdating(true)}
+                >
+                  Update prompt
+                </Button>
+                <Button
+                  className="float-end"
+                  variant="danger"
+                  size="sm"
+                  onClick={handleRemove}
+                  disabled={isLoading}
+                >
+                  <FontAwesomeIcon icon={faTrash} />
+                </Button>
+              </Card.Footer>
+            </>
           )}
-          <FormatDateFromUnix unixms={prompt.createdAt} label="Created on:" />
-        </div>
-        <Button
-          className="ml-1"
-          variant="danger"
-          size="sm"
-          onClick={handleRemove}
-          disabled={isLoading}
-        >
-          <FontAwesomeIcon icon={faTrash} />
-        </Button>
-      </Container>
+        </Card>
+      )}
+      {isUpdating && (
+        <UpdatePrompt prompt={prompt} handleCancel={setIsUpdating} />
+      )}
       {error && (
         <ErrorModal title="Error Removing Prompt" message={error.message} />
       )}

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { Alert, Card, Container, ListGroup, Spinner } from "react-bootstrap";
+import { Alert, Card, Container, Spinner } from "react-bootstrap";
 import { useSelector } from "react-redux";
 import { useThunk, fetchPrompts } from "../store";
 import PromptItem from "./PromptItem";
@@ -34,14 +34,14 @@ const ManagePrompts = () => {
         <Container>
           <Card>
             <Card.Header as="h5">Prompts list</Card.Header>
-            <Card.Body className="max-height-300 overflow-auto">
-              <ListGroup>
-                {data.map((prompt, i) => (
-                  <ListGroup.Item variant="light" key={i}>
-                    <PromptItem prompt={prompt} />
-                  </ListGroup.Item>
-                ))}
-              </ListGroup>
+            <Card.Body className="max-height-500 overflow-auto">
+              {data.map((prompt, i) => (
+                <PromptItem
+                  key={i}
+                  prompt={prompt}
+                  last={data.length === i + 1}
+                />
+              ))}
             </Card.Body>
           </Card>
         </Container>

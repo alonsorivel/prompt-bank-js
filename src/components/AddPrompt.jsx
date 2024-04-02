@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { Button, Card, Container, Form } from "react-bootstrap";
+import { Button, Card, Container, Form, Spinner } from "react-bootstrap";
 import { useThunk, addPrompt } from "../store";
-import ErrorModal from "./ErrorModal";
+import ErrorModal from "./modals/ErrorModal";
 import "./AddPrompt.css";
 
 const initialFieldsState = {
@@ -16,9 +16,9 @@ const validationHandlers = {
         ? { passed: true }
         : { passed: false, msg: "Provide at least 3 characters for title" },
     (str) =>
-      str.length <= 16
+      str.length <= 64
         ? { passed: true }
-        : { passed: false, msg: "Provide at most 16 characters for title" }
+        : { passed: false, msg: "Provide at most 64 characters for title" }
   ],
   prompt: [
     (str) =>
@@ -117,9 +117,9 @@ const AddPrompt = () => {
     <div className="AddPrompt">
       <Container className="p-1rem">
         <Card>
-          <Card.Header as="h5">Create new prompt</Card.Header>
+          <Card.Header as="h5">Add new prompt</Card.Header>
           <Card.Body>
-            <Form noValidate onSubmit={handleSubmit}>
+            <Form noValidate>
               <Form.Group className="mb-3">
                 <Form.Label htmlFor="title">Prompt title</Form.Label>
                 <Form.Control
@@ -149,16 +149,18 @@ const AddPrompt = () => {
                   {fieldsState.prompt.error}
                 </Form.Control.Feedback>
               </Form.Group>
-
-              <Button
-                variant="primary"
-                type="submit"
-                disabled={isLoading || !isFormValid()}
-              >
-                Add
-              </Button>
             </Form>
           </Card.Body>
+          <Card.Footer>
+            <Button
+              variant="primary"
+              type="submit"
+              onClick={handleSubmit}
+              disabled={isLoading || !isFormValid()}
+            >
+              Add prompt {isLoading && <Spinner animation="border" size="sm" />}
+            </Button>
+          </Card.Footer>
         </Card>
       </Container>
       {error && (

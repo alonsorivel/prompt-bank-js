@@ -1,22 +1,3 @@
 {
-  "prompts": [
-    {
-      "id": "OfAbnkchFbpWu",
-      "title": "First prompt",
-      "prompt": "Do this, do that!",
-      "createdAt": 1711989548009
-    },
-    {
-      "id": "_7VHNr-44OGaV",
-      "title": "Second prompt",
-      "prompt": "Do this, do that!",
-      "createdAt": 1711989570329
-    },
-    {
-      "id": "YJjQD89seoFBy",
-      "title": "Third prompt",
-      "prompt": "Oscar the ostrich longed to fly. He flapped and ran until one day, a big gust of wind whooshed him up! Worms stared. Birds squawked. Oscar soared (briefly). He landed in a giggling pile of feathers. Not a plane, but definitely a flying ostrich!",
-      "createdAt": 1711994823099
-    }
-  ]
+  "prompts": []
 }
