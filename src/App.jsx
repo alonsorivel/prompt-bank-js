@@ -1,8 +1,8 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
-import Home from "./components/Home";
-import Preferences from "./components/Preferences";
-import NotFound from "./components/NotFound";
+import Layout from "./pages/Layout";
+import Home from "./pages/Home";
+import Preferences from "./pages/Preferences";
+import NotFound from "./pages/NotFound";
 
 const App = () => {
   return (
