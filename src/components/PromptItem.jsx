@@ -51,7 +51,7 @@ const PromptItem = ({ prompt, last }) => {
       {!isUpdating && (
         <Card className={!last && "mb-2"}>
           <Card.Header as="h5">
-            {prompt.title} {prompt.expanded && " (expanded)"} <ExpandButton />
+            {prompt.title} <ExpandButton />
           </Card.Header>
           {isExpanded && (
             <>

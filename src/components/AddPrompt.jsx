@@ -115,7 +115,7 @@ const AddPrompt = () => {
 
   return (
     <div className="AddPrompt">
-      <Container className="pb-3">
+      <Container className="mt-3 pb-3">
         <Card>
           <Card.Header as="h5">Add new prompt</Card.Header>
           <Card.Body>
